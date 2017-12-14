@@ -1,3 +1,7 @@
+# H5P Music Composition Exercises Library
+
+## License
+
 MIT License
 
 Copyright (c) 2017 Centre for Educational Technology, School of Digital Technology, Tallinn University
