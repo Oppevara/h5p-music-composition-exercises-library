@@ -7,5 +7,76 @@
   "runnable": 0,
   "author": "Pjotr Savitski",
   "license": "MIT",
-  "machineName": "H5P.MusicCompositionExercisesLibrary"
+  "machineName": "H5P.MusicCompositionExercisesLibrary",
+  "preloadedJs": [
+    {
+      "path": "scripts/komp/baseclass.js"
+    },
+    {
+      "path": "scripts/komp/pianoclass.js"
+    },
+    {
+      "path": "scripts/komp/noteclass.js"
+    },
+    {
+      "path": "scripts/komp/intervalclass.js"
+    },
+    {
+      "path": "scripts/komp/recognize_duration.js"
+    },
+    {
+      "path": "scripts/komp/find_missing_duration.js"
+    },
+    {
+      "path": "scripts/komp/name_duration.js"
+    },
+    {
+      "path": "scripts/komp/draw_barlines.js"
+    },
+    {
+      "path": "scripts/komp/find_time.js"
+    },
+    {
+      "path": "scripts/komp/describe_note.js"
+    },
+    {
+      "path": "scripts/komp/note_from_notename.js"
+    },
+    {
+      "path": "scripts/komp/note_from_notation.js"
+    },
+    {
+      "path": "scripts/komp/note_from_keyboard.js"
+    },
+    {
+      "path": "scripts/komp/note_from_syllable.js"
+    },
+    {
+      "path": "scripts/komp/enharmonism.js"
+    },
+    {
+      "path": "scripts/komp/change_clef.js"
+    },
+    {
+      "path": "scripts/komp/octave_from_notation.js"
+    },
+    {
+      "path": "scripts/komp/build_interval.js"
+    },
+    {
+      "path": "scripts/komp/build_chord.js"
+    },
+    {
+      "path": "scripts/komp/recognize_key_signature.js"
+    },
+    {
+      "path": "scripts/komp/build_scale.js"
+    },
+    {
+      "path": "scripts/komp/name_key.js"
+    },
+    {
+      "path": "scripts/index.js"
+    }
+  ]
 }
