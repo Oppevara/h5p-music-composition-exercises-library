@@ -233,7 +233,9 @@ function MusicExercise(containerNode, canvasClassName, width, x, y, scale, noSou
 		if (this.currentQuestion<this.maxQuestions) {
 			this.currentQuestion++;
 			this.containerNode.getElementsByClassName("questionNumber")[0].innerHTML = this.currentQuestion.toString();
-			exercise.renew();
+			//exercise.renew();
+			// CHANGED Global exercise is not defined
+			this.renew();
 			this.timer = this.timeToThink;
 			countdown();
 		} else {
