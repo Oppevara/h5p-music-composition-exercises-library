@@ -21,29 +21,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 // NoteClass defined in noteclass.js -  must be included in main html, also intervalclass.js
 
-function buildChord(clef, direction, containerNode, canvasClassName) { 
+function buildChord(clef, direction, containerNode, canvasClassName) {
 	if (direction===undefined) direction = "up";
 	if (clef===undefined) clef = "treble";
-	
+
 	var answered = false;
 	var chordIndex = -1, noteIndex = -1;
 	var chord = []; //notes of the chord index 0 always basenote, 1 - second note, 2 -  third note etc
 	var currentNoteIndex = [-1,-1,-1,-1];
 	var activeNote = 1; // if activeNote==1, insert or change the second note
-	
+
 	this.containerNode = containerNode===undefined ? document.body : containerNode;
 	this.canvasClassName = canvasClassName === undefined ? "mainCanvas" : canvasClassName;
-	
+
 	var intervals = new IntervalClass();
 	var notes = new NoteClass();
-	
+
 	// set necessary methods in exercise
 	var exercise = new MusicExercise(this.containerNode, this.canvasClassName, 150,10,10,1.5); // bigger scale for note input
  	exercise.time = "";
  	exercise.key = "";
 	exercise.timeToThink = 30; // more time for doing the test
-	
-	
+
+
 	var possibleChords = intervals.possibleChords;
 	var possibleNotes = [];
 	var possibleBaseNotes = [];
@@ -60,20 +60,20 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 		exercise.clef = "treble"
 		possibleNotes = notes.violinClefNotes;
 		if (direction.toLowerCase()==="up") {
-			possibleBaseNotes =  ["C/4", "D/4", "E/4", "F/4", "G/4", "A/4"]; 
+			possibleBaseNotes =  ["C/4", "D/4", "E/4", "F/4", "G/4", "A/4"];
 		} else {
 			possibleBaseNotes =  ["C/5", "D/5", "E/5", "F/5", "G/5", "A/5"];
 		}
 	}
-	
-	
+
+
 	// Create or set necessary HTML elements
 	var directionTranslation = (direction==="up") ? "üles" : " alla" ;
 	this.containerNode.getElementsByClassName("exerciseTitle")[0].innerHTML = "Akordide ehitamine: " + directionTranslation + ", "  + ( (clef==="bass") ? "bassivõti." : "viiulivõti." );
-	this.containerNode.getElementsByClassName("description")[0].innerHTML = "Antud on helikõrgus ja akordi nimetus. Ehita akord, klõpsates noodijoonestikule. Nuppude abil vali, millist akordi nooti sisetad või muudad. <br>Alteratsioonimärkide lisamiseks vajuta + või - nupule või kasuta vatavaid klahve arvutklaviatuuril."; 
-	
-	
-	
+	this.containerNode.getElementsByClassName("description")[0].innerHTML = "Antud on helikõrgus ja akordi nimetus. Ehita akord, klõpsates noodijoonestikule. Nuppude abil vali, millist akordi nooti sisetad või muudad. <br>Alteratsioonimärkide lisamiseks vajuta + või - nupule või kasuta vatavaid klahve arvutklaviatuuril.";
+
+
+
 	function handleAccidental(plusMinus) {  // -1 to lower half tone, +1 to raise halftone
 		//console.log("handleAccidental", plusMinus);
 		if (currentNoteIndex[activeNote] > 0) {
@@ -89,71 +89,85 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 		} else {
 			alert("Klõpsa esmalt noodi asukohale noodijoonestikul!")
 		}
-		
-	}
-	
 
-	document.body.addEventListener('keypress', function (e) { 
+	}
+
+
+	document.body.addEventListener('keypress', function (e) {
 		e = e || window.event;
-		var charCode = e.keyCode || e.which;		
+		var charCode = e.keyCode || e.which;
 		if ( charCode === 45 && currentNoteIndex[activeNote] >= 0) { // minus key
 			handleAccidental(-1);
 		}
 		if (charCode === 43 && currentNoteIndex[activeNote] >= 0 ) { // plus key
 			handleAccidental(1);
 		}
-		
+
 	}, false);
-	
+
 	var diesisButton = document.createElement("button");
     diesisButton.innerHTML = "+";
     diesisButton.onclick = function(){handleAccidental(1)};
     diesisButton.style.position = "relative"; // raise it to the height of staff
 	diesisButton.style.top = "-150px";
     exercise.canvas.appendChild(diesisButton);
-	
+
 	var bemolleButton = document.createElement("button");
     bemolleButton.innerHTML = "-";
     bemolleButton.onclick = function(){handleAccidental(-1)};
     bemolleButton.style.position = "relative";
 	bemolleButton.style.top = "-150px";
     exercise.canvas.appendChild(bemolleButton);
-	
-	
+
+
 	exercise.setActiveNote = function(value) { // put this into exercise context to be reachable from html element
 		activeNote = parseInt(value);
 		console.log("Active note: ", activeNote);
 	}
-	
+
 	var radioDiv = document.createElement("div");
-	radioDiv.innerHTML = '<br>Sisetatav/Muudetav noot: ' + 
+	/*radioDiv.innerHTML = '<br>Sisetatav/Muudetav noot: ' +
 	'<input type="radio" class="firstButton"  name="activeNote" value="1" onclick="exercise.setActiveNote(this.value)" checked>2</input> ' +
 	'<input type="radio" name="activeNote" value="2" onclick="exercise.setActiveNote(this.value)">3</input> ' +
-	'<input type="radio" class="lastButton" name="activeNote" value="3" onclick="exercise.setActiveNote(this.value)">4</input> ';
+	'<input type="radio" class="lastButton" name="activeNote" value="3" onclick="exercise.setActiveNote(this.value)">4</input> ';*/
+	// Chanegd the HTML a bit, removed "onclick" attributes as those references a global exercise variable that would not normally exist
+	radioDiv.innerHTML = '<br>Sisetatav/Muudetav noot: ' +
+	'<input type="radio" class="firstButton"  name="activeNote" value="1" checked>2</input> ' +
+	'<input type="radio" name="activeNote" value="2">3</input> ' +
+	'<input type="radio" class="lastButton" name="activeNote" value="3"">4</input> ';
+
+	// Added onclick with callback function, this way it could access the local exercise variable
+	var activeNoteElements = radioDiv.getElementsByTagName('input');
+	if ( activeNoteElements && activeNoteElements.length > 0 ) {
+		for (var i= 0; i<activeNoteElements.length;i++) {
+			activeNoteElements[i].onclick = function() { exercise.setActiveNote(this.value); };
+		}
+	}
+
 	exercise.canvas.appendChild(radioDiv);
-	
+
 	exercise.generate = function() {
-				
+
 		chord = [];
 		chordIndex = Math.floor(Math.random()* possibleChords.length);
-		
+
 		var baseNote = possibleBaseNotes[Math.floor(Math.random()* possibleBaseNotes.length)];
-		//console.log("Basenote: ", baseNote);		
-		
+		//console.log("Basenote: ", baseNote);
+
 		noteIndex = notes.findIndexByVtNote(baseNote, possibleNotes);
-		
+
 		if (noteIndex==-1 || noteIndex===undefined) {
 			console.log("Generation failed. Could not find ", baseNote, "in possibleNotes");
 			return;
 		}
-		
-		chord[0] = possibleNotes[noteIndex]; 
-		
+
+		chord[0] = possibleNotes[noteIndex];
+
 		//console.log("Selected: ", possibleChords[chordIndex].longName, "from ", possibleNotes[noteIndex].name);
 		this.containerNode.getElementsByClassName("question")[0].innerHTML =	'<br>Sisesta noodijoonestikule <b>' +possibleChords[chordIndex].longName + " " + directionTranslation +  '</b>.<br>Kui oled noodid sisetanud noodijoonestikule, vajuta Vasta:' ;
-		
+
 		exercise.notes = ":w " + possibleNotes[noteIndex].vtNote; // the note the interval is built from
-		currentNoteIndex = [-1, -1, -1, -1]; 
+		currentNoteIndex = [-1, -1, -1, -1];
 		this.containerNode.getElementsByClassName("firstButton")[0].checked = true;
 		if (possibleChords[chordIndex].intervalsUp.length < 3) { // disable 4. button if 3 notes in chord
 			this.containerNode.getElementsByClassName("lastButton")[0].disabled = true;
@@ -161,12 +175,12 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 			this.containerNode.getElementsByClassName("lastButton")[0].disabled = false;
 		}
 		activeNote = 1;
-		answered = false; 
+		answered = false;
 	}
-	
-	
+
+
 	exercise.clickActions = function(x,y) {
-		var line = exercise.artist.staves[0].note.getLineForY(y);		
+		var line = exercise.artist.staves[0].note.getLineForY(y);
 		// find note by line
 		line =  Math.round(line*2)/2; // round to neares 0.5
 		for (var i= 0; i<possibleNotes.length;i++) {
@@ -183,50 +197,50 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 			}
 		}
 	}
-	
-	exercise.renew();		
-	
+
+	exercise.renew();
+
 	exercise.responseFunction = function() {
 		if (currentNoteIndex[1] == -1) {
 			alert("Akordi 2. noot sisestamata!")
 			return;
 		}
-		
+
 		if (currentNoteIndex[2] == -1) {
 			alert("Akordi 3. noot sisestamata!")
 			return;
 		}
-		
+
 		if ( possibleChords[chordIndex].intervalsUp.length >= 3 && currentNoteIndex[3] == -1) {
 			alert("Akordi 4. noot sisestamata!")
 			return;
 		}
-		
+
 		if (answered) {
 			alert('Sa oled juba vastanud. Vajuta "Uuenda"');
 			return;
 		}
-		
+
 		exercise.attempts += 1;
 		var feedback = "";
 		var correct = false;
-		
+
 		var interval1 = intervals.getInterval(chord[0],chord[1]).interval; // ignore the direction, probably right
 		var interval2 = intervals.getInterval(chord[0],chord[2]).interval;
 		var interval3;
 		if (currentNoteIndex[3] != -1 ) { // 4-note chord
 			interval3 = intervals.getInterval(chord[0],chord[3]).interval;
 		}
-		
+
 		var rightIntervals = [];
 		if (direction==="up") {
 			rightIntervals = possibleChords[chordIndex].intervalsUp;
 		} else {
 			rightIntervals = possibleChords[chordIndex].intervalsDown;
 		}
-		
-		
-		if (interval1.shortName===rightIntervals[0] && interval2.shortName===rightIntervals[1]) { 
+
+
+		if (interval1.shortName===rightIntervals[0] && interval2.shortName===rightIntervals[1]) {
 			correct = true;
 			if (interval3 != undefined) {
 				if (interval3.shortName !== rightIntervals[2] ) {
@@ -236,12 +250,12 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 		} else {
 			correct = false;
 		}
-		
+
 		if (correct) {
 			feedback += "<b>Akord õige! </b>"
 			exercise.score += 1;
 		} else {
-			feedback += "<b>Vale.</b>. Õige akord on kuvatud järgmises taktis"; 
+			feedback += "<b>Vale.</b>. Õige akord on kuvatud järgmises taktis";
 			// form righ chord to show
 			var correctChord = [possibleNotes[noteIndex]];
 			correctChord.push(intervals.makeInterval(possibleNotes[noteIndex], rightIntervals[0], direction, possibleNotes  ));
@@ -249,18 +263,18 @@ function buildChord(clef, direction, containerNode, canvasClassName) {
 			if (possibleChords[chordIndex].intervalsUp.length >= 3) {
 				correctChord.push(intervals.makeInterval(possibleNotes[noteIndex], rightIntervals[2], direction, possibleNotes  ));
 			}
-			
+
 			exercise.notes += " | :w " + intervals.makeChord(correctChord); // show the right chord in second bar
-			exercise.draw(); 
+			exercise.draw();
 		}
-		
+
 		this.containerNode.getElementsByClassName("attempts")[0].innerHTML = exercise.attempts;
 		this.containerNode.getElementsByClassName("score")[0].innerHTML = exercise.score;
-		this.containerNode.getElementsByClassName("feedback")[0].innerHTML = feedback; 		
+		this.containerNode.getElementsByClassName("feedback")[0].innerHTML = feedback;
 		answered = true;
-		
+
 	}
-	
+
 	return exercise;
 
 }
