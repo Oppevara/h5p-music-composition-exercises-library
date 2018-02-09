@@ -245,15 +245,15 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
       'html': 'Test',
       'on': {
         'click': function() {
+          $testDiv.show();
           $testDiv.css('visibility', 'visible');
         }
       },
       'appendTo': $results
     });
-    $('<br>').appendTo($container);
     var $testDiv = $('<div>', {
       'class': 'testDiv',
-      'style': 'visibility:hidden;',
+      'style': 'display:none;',
       'text': 'Kas soovite tulemuse salvestada pdf faili (nt esitamiseks õpetajale)? '
     }).appendTo($container);
 
@@ -262,7 +262,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
       'html': 'Jah',
       'on': {
         'click': function() {
-          $pdfDiv.css('visibility', 'visible');
+          $pdfDiv.show();
           context.exercise.saveToPdf = true;
         }
       },
@@ -273,7 +273,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
       'html': 'Ei',
       'on': {
         'click': function() {
-          $pdfDiv.css('visibility', 'hidden');
+          $pdfDiv.hide();
           context.exercise.saveToPdf = false;
         }
       },
@@ -281,13 +281,14 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
     });
     var $pdfDiv = $('<div>', {
       'class': 'h5p-music-compositon-exercises-pdf-div pdfDiv',
-      'style': 'visibility:hidden;',
+      'style': 'display:none;',
       'text': 'Nimi: '
     }).append($('<input>', {
       'type': 'text',
       'class': 'name',
       'size': '20'
     })).appendTo($testDiv);
+    $('<br>').appendTo($testDiv);
     $testDiv.append('Küsimus nr <b><label class="questionNumber">0</label></b>. Aega on: <b><label  class="timer">0</label></b> sekundit.<br> Aega kulunud kokku: <b><label class="totalTestTime">0</label></b> sekundit.<br>');
     JoubelUI.createButton({
       'class': 'h5p-music-compositon-exercises-start-test startTest',
