@@ -8,6 +8,11 @@
   "author": "Pjotr Savitski",
   "license": "MIT",
   "machineName": "H5P.MusicCompositionExercisesLibrary",
+  "preloadedCss": [
+    {
+      "path": "styles/music-composition-exercises-library.css"
+    }
+  ],
   "preloadedJs": [
     {
       "path": "scripts/komp/baseclass.js"
@@ -77,6 +82,18 @@
     },
     {
       "path": "scripts/index.js"
+    }
+  ],
+  "preloadedDependencies": [
+    {
+      "machineName": "FontAwesome",
+      "majorVersion": 4,
+      "minorVersion": 5
+    },
+    {
+      "machineName": "H5P.JoubelUI",
+      "majorVersion": 1,
+      "minorVersion": 3
     }
   ]
 }
