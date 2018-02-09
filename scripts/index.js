@@ -165,7 +165,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
     }).appendTo($container);
     $('<br>').appendTo($container);
     JoubelUI.createButton({
-      'class': 'h5pf-music-compositon-exercises-play',
+      'class': 'h5p-music-compositon-exercises-play',
       'html': 'Mängi',
       'on': {
         'click': function() {
