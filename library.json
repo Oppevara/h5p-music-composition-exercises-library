@@ -15,6 +15,18 @@
   ],
   "preloadedJs": [
     {
+      "path": "scripts/vextab/vextab-div.js"
+    },
+    {
+      "path": "scripts/webaudiofont/WebAudioFontPlayer.js"
+    },
+    {
+      "path": "scripts/webaudiofontdata/0000_JCLive_sf2_file.js"
+    },
+    {
+      "path": "scripts/jspdf/jspdf.min.js"
+    },
+    {
       "path": "scripts/komp/baseclass.js"
     },
     {
