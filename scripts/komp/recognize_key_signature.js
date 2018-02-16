@@ -81,6 +81,7 @@ function recognizeKeySignature(containerNode, canvasClassName) {
 		}
 		exercise.attempts += 1;
 		var feedback = "";
+		var keyName = getKeyName(this.key, selectedKeysIsMajor);
 
 		if (this.key == keys[selectedKeyIndex].vtKey) {
 			feedback = "<b>Õige!</b>";
@@ -88,8 +89,6 @@ function recognizeKeySignature(containerNode, canvasClassName) {
 			//this.artist.staves[0].note.context.attributes.fill = "green";
 			this.renderer.ctx.attributes.fill = "green";
 		} else {
-			console.log("Is major: ", selectedKeysIsMajor);
-			var keyName = getKeyName(this.key, selectedKeysIsMajor);
 			feedback = "<b>Vale!</b> See on hoopis: " +   keyName;
 			this.artist.staves[0].note.context.attributes.fill = "red"
 		}
@@ -101,10 +100,12 @@ function recognizeKeySignature(containerNode, canvasClassName) {
 		answered = true;
 
 		if (exercise.testIsRunning() ) {
+			// add info to test report			
+			exercise.testReport +=  exercise.currentQuestion.toString() +  '. Küsitud helistik: ' + keyName   
+			+ '. Vastatud (VexTab helistik): ' + this.key;
+			exercise.testReport += ".<br>Tagasiside: " + feedback + "<br>";
 			exercise.nextQuestion();
 		}
-
-
 	}
 
 	var container = [];

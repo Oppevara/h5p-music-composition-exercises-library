@@ -186,6 +186,12 @@ function changeClef(clef, containerNode, canvasClassName) {  // clef -  the clef
 		this.containerNode.getElementsByClassName("score")[0].innerHTML = exercise.score;
 		this.containerNode.getElementsByClassName("feedback")[0].innerHTML = feedback;
 		answered = true;
+		
+	if (exercise.testIsRunning) { // add info to test report
+			exercise.testReport +=  exercise.currentQuestion.toString() +  '. Küsitud noot: '    + notes.findNoteByVtNote(selectedVtNote, possibleNotes).name  + '. Sisestatud noot: '  + possibleNotes[currentNoteIndex].name ;
+			
+			exercise.testReport += ".<br>Tagasiside: " + feedback + "<br>";	
+		}
 
 	}
 
