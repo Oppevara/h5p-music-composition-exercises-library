@@ -213,7 +213,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
         'click': function() {
           $testDiv.show();
           $testDiv.css('visibility', 'visible');
-          window.top.dispatchEvent(new Event('resize'));
+          H5P.trigger(context, 'resize');
         }
       },
       'appendTo': $results
@@ -231,7 +231,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
         'click': function() {
           $pdfDiv.show();
           context.exercise.saveToPdf = true;
-          window.top.dispatchEvent(new Event('resize'));
+          H5P.trigger(context, 'resize');
         }
       },
       'appendTo': $testDiv
@@ -243,7 +243,7 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
         'click': function() {
           $pdfDiv.hide();
           context.exercise.saveToPdf = false;
-          window.top.dispatchEvent(new Event('resize'));
+          H5P.trigger(context, 'resize');
         }
       },
       'appendTo': $testDiv
