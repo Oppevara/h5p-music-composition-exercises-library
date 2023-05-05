@@ -107,14 +107,14 @@ H5P.MusicCompositionExercisesLibrary = (function($, JoubelUI) {
         exercise = recognizeKeySignature(containerNode, canvasClassName);
         break;
       case '7.2':
-        exercise = buildScale("major", containerNode, canvasClassName);
-        break;
-      case '7.3':
         exercise = nameKey("major", containerNode, canvasClassName);
         break;
-      case '7.4':
+      case '7.3':
         exercise = nameKey("minor", containerNode, canvasClassName);
         break;
+      case '7.4':
+        exercise = buildScale("major", containerNode, canvasClassName);
+        break;  
       default:
         throw 'invalidExerciseType';
     }
